@@ -863,7 +863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1180a52ac05864794925e04b4a18e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Modoru_St
-  animator1: {fileID: 0}
+  animator1: {fileID: 1980497583}
   animator2: {fileID: 733631428}
   Panel: {fileID: 1873884338}
 --- !u!95 &733631428
@@ -876,7 +876,7 @@ Animator:
   m_GameObject: {fileID: 733631425}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 35635fdf5bb8c494f8d7174f8f3ab426, type: 2}
+  m_Controller: {fileID: 9100000, guid: b9c34bdf2d148bc44a8575ec32d275ee, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1576,7 +1576,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u30EC\u30D9\u30EB\uFF11"
+  m_text: "\u30EC\u30D9\u30EB2"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3295843eaa0b49147875fec455942862, type: 2}
   m_sharedMaterial: {fileID: 7084778936203357199, guid: 3295843eaa0b49147875fec455942862, type: 2}
@@ -1958,7 +1958,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2055,8 +2055,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1180a52ac05864794925e04b4a18e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Modoru_St
-  animator1: {fileID: 0}
-  animator2: {fileID: 0}
+  animator1: {fileID: 1980497583}
+  animator2: {fileID: 733631428}
   Panel: {fileID: 1873884338}
 --- !u!1 &2000962281
 GameObject:
