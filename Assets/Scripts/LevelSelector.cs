@@ -1,53 +1,61 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
-using System.Collections;
 
 public class LevelSelector : MonoBehaviour
 {
-    public static GameObject lastSelectedButton = null;
-    public GameObject defaultButton; // ← Level1 のボタンを入れる
+    [Header("Buttons")]
+    public GameObject Button1;
+    public GameObject Button2;
+    public GameObject Button3;
 
-    void Start()
+    // 最後に選択していたボタン番号
+    public static int lastSelected = 1;
+
+    private void Start()
     {
-        StartCoroutine(SelectAfterUIReady());
+        StartCoroutine(SelectNextFrame());
     }
 
-    IEnumerator SelectAfterUIReady()
+    System.Collections.IEnumerator SelectNextFrame()
     {
-        // UI が揃うまで 1 フレーム待つ（これが全て）
         yield return null;
 
-        // 一旦クリア（null 選択を防ぐ）
-        EventSystem.current.SetSelectedGameObject(null);
+        switch (lastSelected)
+        {
+            case 1:
+                EventSystem.current.SetSelectedGameObject(Button1);
+                break;
 
-        // 最後に押したボタンがあればそれを選択
-        if (lastSelectedButton != null)
-        {
-            EventSystem.current.SetSelectedGameObject(lastSelectedButton);
-        }
-        else
-        {
-            // 初回は defaultButton（Level1）
-            EventSystem.current.SetSelectedGameObject(defaultButton);
+            case 2:
+                EventSystem.current.SetSelectedGameObject(Button2);
+                break;
+
+            case 3:
+                EventSystem.current.SetSelectedGameObject(Button3);
+                break;
+
+            default:
+                EventSystem.current.SetSelectedGameObject(Button1);
+                break;
         }
     }
 
-    public void Level1(GameObject button)
+    public void Level1()
     {
-        lastSelectedButton = button;
+        lastSelected = 1;
         SceneManager.LoadScene("Level1");
     }
 
-    public void Level2(GameObject button)
+    public void Level2()
     {
-        lastSelectedButton = button;
+        lastSelected = 2;
         SceneManager.LoadScene("Level2");
     }
 
-    public void Level3(GameObject button)
+    public void Level3()
     {
-        lastSelectedButton = button;
+        lastSelected = 3;
         SceneManager.LoadScene("Level3");
     }
 }
