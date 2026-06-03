@@ -14,6 +14,8 @@ public class Modoru_St : MonoBehaviour
 
     public GameObject Panel;
 
+    public GameObject Panel2;
+
     //public static bool isStart;
 
 
@@ -23,6 +25,11 @@ public class Modoru_St : MonoBehaviour
         //isStart = false;
 
         Panel.SetActive(false);
+        if (Panel2 != null)
+        {
+            Panel2.SetActive(false);
+        }
+        
         //animator1.Play("naninani");
         //animator2.Play("nani");
 
@@ -51,13 +58,23 @@ public class Modoru_St : MonoBehaviour
     public void AStart2()
     {
         Panel.SetActive(true);
+        if (Panel2 != null)
+        {
+            Panel2.SetActive(true);
+        }
+        
     }
 
     public void AEnd()
     {
         Debug.Log("AEnd111111111111");
         Panel.SetActive(false);
+        if (Panel2 != null)
+        {
+            Panel2.SetActive(false);
+        }
         
+
 
     }
 

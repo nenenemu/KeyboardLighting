@@ -997,6 +997,7 @@ MonoBehaviour:
   animator1: {fileID: 1605355866}
   animator2: {fileID: 465039041}
   Panel: {fileID: 671648192}
+  Panel2: {fileID: 901385612}
 --- !u!95 &465039041
 Animator:
   serializedVersion: 7
@@ -1918,6 +1919,7 @@ MonoBehaviour:
   animator1: {fileID: 1605355866}
   animator2: {fileID: 465039041}
   Panel: {fileID: 671648192}
+  Panel2: {fileID: 901385612}
 --- !u!114 &1605355868
 MonoBehaviour:
   m_ObjectHideFlags: 0
