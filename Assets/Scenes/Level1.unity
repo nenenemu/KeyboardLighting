@@ -417,6 +417,7 @@ MonoBehaviour:
   animator1: {fileID: 32335730}
   animator2: {fileID: 1673869677}
   Panel: {fileID: 831943049}
+  Panel2: {fileID: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,6 +1768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1218345029}
   - component: {fileID: 1218345028}
+  - component: {fileID: 1218345030}
   m_Layer: 0
   m_Name: Test_VS
   m_TagString: Untagged
@@ -1807,6 +1809,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1218345030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218345027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd47c372712a1504485bf41ba61633a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RomajiDisplay
+  voice: {fileID: 1218345028}
+  romajiText: {fileID: 829699389}
 --- !u!1 &1221257082
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,6 +2172,7 @@ MonoBehaviour:
   animator1: {fileID: 32335730}
   animator2: {fileID: 1673869677}
   Panel: {fileID: 831943049}
+  Panel2: {fileID: 0}
 --- !u!95 &1673869677
 Animator:
   serializedVersion: 7
