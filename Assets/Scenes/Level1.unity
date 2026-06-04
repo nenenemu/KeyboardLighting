@@ -1823,6 +1823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RomajiDisplay
   voice: {fileID: 1218345028}
   romajiText: {fileID: 829699389}
+  currentIndex: 0
 --- !u!1 &1221257082
 GameObject:
   m_ObjectHideFlags: 0
@@ -2064,6 +2065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d75a0ea9201bee409d18993a9355be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TypingTrainer2
+  romajiDisplay: {fileID: 1218345030}
   voice: {fileID: 1218345028}
 --- !u!4 &1537724890
 Transform:

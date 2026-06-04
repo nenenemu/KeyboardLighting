@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 
 public class TypingTrainer2 : MonoBehaviour
 {
+    public RomajiDisplay romajiDisplay;
     public voiceCS2 voice;
 
     string word = "";
@@ -87,7 +88,9 @@ public class TypingTrainer2 : MonoBehaviour
 
                 if (Input.GetKeyDown(current.ToString()))
                 {
+
                     index++;
+                    romajiDisplay.currentIndex = index;
 
                     if (index >= word.Length)
                     {

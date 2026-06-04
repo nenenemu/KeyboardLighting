@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 
 public class TypingTrainer3 : MonoBehaviour
 {
+    public RomajiDisplay romajiDisplay;
     public voiceCS2 voice;
     public float highlightDelay = 7f;
 
@@ -84,6 +85,7 @@ public class TypingTrainer3 : MonoBehaviour
             if (Input.GetKeyDown(current.ToString()))
             {
                 index++;
+                romajiDisplay.currentIndex = index;
                 timer = 0f;
 
                 if (index >= word.Length)
