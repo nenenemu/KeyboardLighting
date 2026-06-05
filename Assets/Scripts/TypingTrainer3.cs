@@ -10,8 +10,8 @@ public class TypingTrainer3 : MonoBehaviour
     public float highlightDelay = 7f;
 
     string word = "";
-    int index = 0;
-    bool playing = false;
+    public int index = 0;
+    public bool playing = false;
 
     float timer = 0f;
 

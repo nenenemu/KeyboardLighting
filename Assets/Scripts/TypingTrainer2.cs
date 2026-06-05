@@ -10,8 +10,8 @@ public class TypingTrainer2 : MonoBehaviour
     public voiceCS2 voice;
 
     string word = "";
-    int index = 0;
-    bool playing = false;
+    public int index = 0;
+    public bool playing = false;
 
     Dictionary<char, Vector2Int> keyMap = new Dictionary<char, Vector2Int>()
     {

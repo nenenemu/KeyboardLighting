@@ -7,7 +7,7 @@ using System.IO;
 
 public class TypingApple : MonoBehaviour
 {
-    string word = "apple";
+    public string word = "apple";
     int index = 0;
     bool playing = false;
 
