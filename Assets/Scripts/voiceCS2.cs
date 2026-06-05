@@ -3,6 +3,7 @@ using TMPro;
 using System.Text;
 using System.Diagnostics;
 using System.IO;
+using System.Collections;
 
 public class voiceCS2 : MonoBehaviour
 {
@@ -86,7 +87,13 @@ public class voiceCS2 : MonoBehaviour
         // ▼ スペース離した瞬間（録音終了 → Python処理中）
         if (Input.GetKeyUp(KeyCode.Space))
         {
+
             if (isRecording)
+            {
+                StartCoroutine(ProcessVoice());
+            }
+
+            /*if (isRecording)
             {
                 Microphone.End(mic);
 
@@ -94,7 +101,7 @@ public class voiceCS2 : MonoBehaviour
                 Space1.enabled = false;
                 Space2.enabled = false;
                 logo.enabled = false;
-                Yomikomi.enabled = true;
+                //Yomikomi.enabled = true;
 
                 string path = Application.dataPath + "/../python/voice.wav";
 
@@ -116,7 +123,7 @@ public class voiceCS2 : MonoBehaviour
 
                 isRecording = false;
                 UnityEngine.Debug.Log("録音終了");
-            }
+            }*/
         }
 
         // ▼ バックスペースで削除
@@ -204,5 +211,34 @@ public class voiceCS2 : MonoBehaviour
         {
             pythonProcess.Kill();
         }
+    }
+
+    public IEnumerator ProcessVoice()
+    {
+        Microphone.End(mic);
+
+        Space1.enabled = false;
+        Space2.enabled = false;
+        logo.enabled = false;
+        Yomikomi.enabled = true;
+
+        // ここが重要
+        yield return null;
+
+        string path = Application.dataPath + "/../python/voice.wav";
+
+        SaveWav(path, clip);
+
+        string result = RunPython(path);
+
+        Space1.enabled = true;
+        Space2.enabled = false;
+        logo.enabled = false;
+        Yomikomi.enabled = false;
+
+        totalText.Append(result);
+        outputText.text = totalText.ToString();
+
+        isRecording = false;
     }
 }
