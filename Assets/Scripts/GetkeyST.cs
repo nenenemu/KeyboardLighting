@@ -5,19 +5,21 @@ public class GetkeyST : MonoBehaviour
     public Animator animator1;
     public Animator animator2;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public bool canEscape = true;
+
     void Start()
     {
         animator1.SetBool("End", false);
         animator2.SetBool("End", false);
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (!canEscape)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            //animator1.SetBool("End", true);
             animator2.SetBool("End", true);
         }
     }

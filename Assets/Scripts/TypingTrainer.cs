@@ -7,6 +7,8 @@ using System.Runtime.InteropServices;
 public class TypingTrainer : MonoBehaviour
 {
     public voiceCS voice;
+    public GameObject panel1;
+    public TMP_Text text1;
 
     string word = "";
     int index = 0;

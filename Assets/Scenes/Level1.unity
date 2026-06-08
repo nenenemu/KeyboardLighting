@@ -177,7 +177,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "esc\u30AD\u30FC : \u30BF\u30A4\u30C8\u30EB\u306B\u3082\u3069\u308B\u3000\u3000\u30B9\u30DA\u30FC\u30B9\u30AD\u30FC
-    : \u3082\u3058\u3092\u306B\u3085\u3046\u308A\u3087\u304F"
+    : \u3082\u3058\u3092\u306B\u3085\u3046\u308A\u3087\u304F\u3000\u30A8\u30F3\u30BF\u30FC\u30AD\u30FC\uFF1A\u30BF\u30A4\u30D4\u30F3\u30B0\u30B9\u30BF\u30FC\u30C8"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3295843eaa0b49147875fec455942862, type: 2}
   m_sharedMaterial: {fileID: 7084778936203357199, guid: 3295843eaa0b49147875fec455942862, type: 2}
@@ -204,8 +204,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -975.73206, w: 0}
+  m_margin: {x: 0, y: 0, z: -1233.8802, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1743,6 +1743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GetkeyST
   animator1: {fileID: 32335730}
   animator2: {fileID: 1673869677}
+  canEscape: 1
 --- !u!4 &1152476887
 Transform:
   m_ObjectHideFlags: 0
