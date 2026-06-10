@@ -1366,6 +1366,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1497934432}
   - {fileID: 829699391}
   - {fileID: 1716964906}
   - {fileID: 26996603}
@@ -1528,7 +1529,6 @@ RectTransform:
   - {fileID: 730203366}
   - {fileID: 32335726}
   - {fileID: 1673869673}
-  - {fileID: 1497934432}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1789,6 +1789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ff9515e60153f45955565ba2cb61b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::voiceCS2
+  trainer2: {fileID: 1537724889}
+  trainer3: {fileID: 0}
   outputText: {fileID: 1497934433}
   isRecording: 0
   logo: {fileID: 1221257084}
@@ -1932,7 +1934,7 @@ RectTransform:
   m_LocalScale: {x: 6.4868, y: 6.4868, z: 6.4868}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 901385616}
+  m_Father: {fileID: 831943053}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

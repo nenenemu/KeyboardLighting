@@ -85,7 +85,11 @@ public class TypingTrainer3 : MonoBehaviour
             timer = 0f;
 
             if (word.Length > 0)
+            {
                 playing = true;
+                voice.Space1.enabled = false;
+            }
+                
         }
 
         if (playing && index < word.Length)
@@ -119,11 +123,14 @@ public class TypingTrainer3 : MonoBehaviour
                     if (index >= word.Length)
                     {
                         playing = false;
+
                         voice.ClearText();
+                        voice.Space1.enabled = true;
 
                         wrongKeys.Clear();
                         ResetColors();
                         SendEffect();
+
                     }
 
                     return;
@@ -243,6 +250,15 @@ public class TypingTrainer3 : MonoBehaviour
                 result += map[s];
         }
         return result;
+    }
+
+    void OnDisable()
+    {
+        ResetColors();
+
+        Array.Fill(lastColors, -1);
+
+        SendEffect();
     }
 
     void OnApplicationQuit()

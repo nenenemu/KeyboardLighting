@@ -66,7 +66,11 @@ public class TypingTrainer2 : MonoBehaviour
             index = 0;
 
             if (word.Length > 0)
+            {
                 playing = true;
+                voice.Space1.enabled = false;
+            }
+                
         }
 
         if (playing)
@@ -93,6 +97,7 @@ public class TypingTrainer2 : MonoBehaviour
                     {
                         playing = false;
                         voice.ClearText();
+                        voice.Space1.enabled = true;
                     }
                 }
             }
@@ -212,6 +217,25 @@ public class TypingTrainer2 : MonoBehaviour
         }
 
         return result;
+    }
+
+    void ClearKeyboard()
+    {
+        KeyboardEffect effect = new KeyboardEffect();
+        effect.Color = new int[132];
+
+        IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effect));
+
+        Marshal.StructureToPtr(effect, ptr, false);
+
+        CreateKeyboardEffect(CHROMA_CUSTOM, ptr, IntPtr.Zero);
+
+        Marshal.FreeHGlobal(ptr);
+    }
+
+    void OnDisable()
+    {
+        ClearKeyboard();
     }
 
     void OnApplicationQuit()

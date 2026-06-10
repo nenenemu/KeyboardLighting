@@ -7,6 +7,9 @@ using System.Collections;
 
 public class voiceCS2 : MonoBehaviour
 {
+    public TypingTrainer2 trainer2;
+    public TypingTrainer3 trainer3;
+
     public TextMeshProUGUI outputText;
 
     private AudioClip clip;
@@ -60,6 +63,14 @@ public class voiceCS2 : MonoBehaviour
 
     void Update()
     {
+        if ((trainer2 != null && trainer2.playing) ||
+    (trainer3 != null && trainer3.playing))
+        {
+            return;
+        }
+
+
+
         // ▼ Enter が押されたら文字を赤にする
         if (Input.GetKeyDown(KeyCode.Return))
         {
