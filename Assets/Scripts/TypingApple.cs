@@ -10,13 +10,15 @@ using TMPro;
 
 public class TypingApple : MonoBehaviour
 {
+    int[] lastColors = new int[132];
+
+    float blueUntil = 0f;
+    char blueKey = '\0';
+
     public TMP_Text wordText;
-
     public GetkeyST getkeyST;
-
     public GameObject Panel;
     public GameObject Panel2;
-
     public EventSystem eventSystem;
 
     public string word = "apple";
@@ -74,11 +76,16 @@ public class TypingApple : MonoBehaviour
         Init();
         StartPython();
 
-        if (Panel != null)
-            Panel.SetActive(false);
+        if (Panel != null) Panel.SetActive(false);
+        if (Panel2 != null) Panel2.SetActive(false);
 
-        if (Panel2 != null)
-            Panel2.SetActive(false);
+        ResetColors();
+
+        Array.Fill(lastColors, -1);
+
+        //Array.Clear(lastColors, 0, lastColors.Length);
+
+        SendEffect();
     }
 
     void Update()
@@ -95,32 +102,27 @@ public class TypingApple : MonoBehaviour
                 showHint = true;
             }
 
+            // ESCで終了
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 playing = false;
-
                 eventSystem.sendNavigationEvents = true;
 
-                if (getkeyST != null)
-                    getkeyST.canEscape = true;
-
-                if (Panel != null)
-                    Panel.SetActive(false);
-
-                if (Panel2 != null)
-                    Panel2.SetActive(false);
+                if (getkeyST != null) getkeyST.canEscape = true;
+                if (Panel != null) Panel.SetActive(false);
+                if (Panel2 != null) Panel2.SetActive(false);
             }
 
             // 正解キー表示（スペース押したときだけ）
             if (showHint)
             {
-                SetKeyColor(current, 0x0000FF);
+                SetKeyColor(current, 0xFF0000);
             }
 
             // 間違いキーはずっと光る
             foreach (char c in wrongKeys)
             {
-                SetKeyColor(c, 0x0000FF);
+                SetKeyColor(c, 0x0000FF); // 赤
             }
 
             // 入力処理
@@ -128,14 +130,24 @@ public class TypingApple : MonoBehaviour
             {
                 if (k == current)
                 {
+                    blueKey = current;
+                    blueUntil = Time.time + 2f;
+
+                    wrongKeys.Clear(); // ←ここで赤全部消す
+
                     index++;
-                    wrongKeys.Clear();
+
                     showHint = false;
+
                     UpdateWordDisplay();
 
                     if (index >= word.Length)
                     {
                         playing = false;
+
+                        wrongKeys.Clear();
+                        ResetColors();
+                        SendEffect();
 
                         eventSystem.sendNavigationEvents = true;
 
@@ -157,6 +169,11 @@ public class TypingApple : MonoBehaviour
                     wrongKeys.Add(k);
                 }
             }
+
+            if (Time.time < blueUntil)
+            {
+                SetKeyColor(blueKey, 0xFF0000); // 青
+            }
         }
 
         SendEffect();
@@ -171,22 +188,14 @@ public class TypingApple : MonoBehaviour
         playing = true;
 
         eventSystem.sendNavigationEvents = false;
+        if (getkeyST != null) getkeyST.canEscape = false;
 
-        if (getkeyST != null)
-            getkeyST.canEscape = false;
-
-        if (Panel != null)
-            Panel.SetActive(true);
-
-        if (Panel2 != null)
-            Panel2.SetActive(true);
+        if (Panel != null) Panel.SetActive(true);
+        if (Panel2 != null) Panel2.SetActive(true);
 
         UpdateWordDisplay();
-
         Speak(word);
     }
-
-
 
     void StartPython()
     {
@@ -226,6 +235,24 @@ public class TypingApple : MonoBehaviour
 
     void SendEffect()
     {
+         
+
+        bool changed = false;
+
+        for (int i = 0; i < 132; i++)
+        {
+            if (lastColors[i] != keyColors[i])
+            {
+                changed = true;
+                break;
+            }
+        }
+
+        if (!changed)
+            return;
+
+        Array.Copy(keyColors, lastColors, 132);
+
         KeyboardEffect effect = new KeyboardEffect();
         effect.Color = new int[132];
         Array.Copy(keyColors, effect.Color, 132);
@@ -248,23 +275,27 @@ public class TypingApple : MonoBehaviour
 
     void UpdateWordDisplay()
     {
-        if (wordText == null)
-            return;
+        if (wordText == null) return;
 
         string display = "";
 
         for (int i = 0; i < word.Length; i++)
         {
             if (i < index)
-            {
                 display += "<color=blue>" + word[i] + "</color>";
-            }
             else
-            {
                 display += word[i];
-            }
         }
 
         wordText.text = display;
+    }
+
+    void OnEnable()
+    {
+        ResetColors();
+
+        Array.Clear(lastColors, 0, lastColors.Length);
+
+        SendEffect();
     }
 }
