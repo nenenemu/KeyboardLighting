@@ -5,6 +5,18 @@ using System.Runtime.InteropServices;
 
 public class TypingTrainer3 : MonoBehaviour
 {
+    int[] lastColors = new int[132];
+
+    HashSet<char> wrongKeys = new HashSet<char>();
+
+    float blueUntil = 0f;
+    char blueKey = '\0';
+
+    public AudioSource audioSource;
+
+    public AudioClip correctSE;
+    public AudioClip missSE;
+
     public RomajiDisplay romajiDisplay;
     public voiceCS2 voice;
     public float highlightDelay = 7f;
@@ -55,6 +67,7 @@ public class TypingTrainer3 : MonoBehaviour
     void Start()
     {
         Init();
+        Array.Fill(lastColors, -1);
     }
 
     void Update()
@@ -82,33 +95,60 @@ public class TypingTrainer3 : MonoBehaviour
             timer += Time.deltaTime;
 
             // ⭐ 正解キー押したら次へ
-            if (Input.GetKeyDown(current.ToString()))
+            foreach (char k in Input.inputString)
             {
-                index++;
-                romajiDisplay.currentIndex = index;
-                timer = 0f;
+                if (!char.IsLetter(k))
+                    continue;
 
-                if (index >= word.Length)
+                char inputChar = char.ToLower(k);
+
+                if (inputChar == current)
                 {
-                    playing = false;
-                    voice.ClearText();
-                }
+                    audioSource.PlayOneShot(correctSE);
 
-                return; // ←このフレームで余計な描画をしない（重要）
+                    blueKey = current;
+                    blueUntil = Time.time + 2f;
+
+                    wrongKeys.Clear();
+
+                    index++;
+                    romajiDisplay.currentIndex = index;
+
+                    timer = 0f;
+
+                    if (index >= word.Length)
+                    {
+                        playing = false;
+                        voice.ClearText();
+
+                        wrongKeys.Clear();
+                        ResetColors();
+                        SendEffect();
+                    }
+
+                    return;
+                }
+                else
+                {
+                    audioSource.PlayOneShot(missSE);
+
+                    wrongKeys.Add(inputChar);
+                }
+            }
+
+            foreach (char c in wrongKeys)
+            {
+                SetKeyColor(c, 0x0000FF);
             }
 
             // ⭐ 最初のキーはずっと光る
             if (index == 0)
             {
-                SetKeyColor(current, 0x0000FF);
+                SetKeyColor(current, 0xFF0000);
             }
-            else
+            else if (timer >= highlightDelay)
             {
-                // ⭐ 2文字目以降は遅延後に光る
-                if (timer >= highlightDelay)
-                {
-                    SetKeyColor(current, 0x0000FF);
-                }
+                SetKeyColor(current, 0xFF0000);
             }
 
             // ⭐ 間違いキー（押した瞬間だけ赤）
@@ -116,9 +156,16 @@ public class TypingTrainer3 : MonoBehaviour
             {
                 if (k != current)
                 {
-                    SetKeyColor(k, 0xFF0000);
+                    SetKeyColor(k, 0x0000FF);
                 }
             }
+        }
+
+        
+
+        if (Time.time < blueUntil)
+        {
+            SetKeyColor(blueKey, 0xFF0000);
         }
 
         SendEffect();
@@ -141,14 +188,33 @@ public class TypingTrainer3 : MonoBehaviour
 
     void SendEffect()
     {
+        bool changed = false;
+
+        for (int i = 0; i < 132; i++)
+        {
+            if (lastColors[i] != keyColors[i])
+            {
+                changed = true;
+                break;
+            }
+        }
+
+        if (!changed)
+            return;
+
+        Array.Copy(keyColors, lastColors, 132);
+
         KeyboardEffect effect = new KeyboardEffect();
         effect.Color = new int[132];
 
         Array.Copy(keyColors, effect.Color, 132);
 
         IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effect));
+
         Marshal.StructureToPtr(effect, ptr, false);
+
         CreateKeyboardEffect(CHROMA_CUSTOM, ptr, IntPtr.Zero);
+
         Marshal.FreeHGlobal(ptr);
     }
 

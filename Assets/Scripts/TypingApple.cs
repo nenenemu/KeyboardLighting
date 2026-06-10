@@ -10,6 +10,8 @@ using TMPro;
 
 public class TypingApple : MonoBehaviour
 {
+    
+
     int[] lastColors = new int[132];
 
     float blueUntil = 0f;
@@ -20,6 +22,11 @@ public class TypingApple : MonoBehaviour
     public GameObject Panel;
     public GameObject Panel2;
     public EventSystem eventSystem;
+
+    public AudioSource audioSource;
+
+    public AudioClip correctSE;
+    public AudioClip missSE;
 
     public string word = "apple";
     int index = 0;
@@ -126,17 +133,24 @@ public class TypingApple : MonoBehaviour
             }
 
             // 入力処理
-            foreach (char k in Input.inputString)
+            foreach (char inputChar in Input.inputString)
             {
+                // 英字以外は無視
+                if (!char.IsLetter(inputChar))
+                    continue;
+
+                char k = char.ToLower(inputChar);
+
                 if (k == current)
                 {
+                    audioSource.PlayOneShot(correctSE);
+
                     blueKey = current;
                     blueUntil = Time.time + 2f;
 
-                    wrongKeys.Clear(); // ←ここで赤全部消す
+                    wrongKeys.Clear();
 
                     index++;
-
                     showHint = false;
 
                     UpdateWordDisplay();
@@ -166,6 +180,7 @@ public class TypingApple : MonoBehaviour
                 }
                 else
                 {
+                    audioSource.PlayOneShot(missSE);
                     wrongKeys.Add(k);
                 }
             }
