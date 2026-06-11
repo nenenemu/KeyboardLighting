@@ -6,9 +6,6 @@ using System.Runtime.InteropServices;
 
 public class TypingTrainer2 : MonoBehaviour
 {
-    public GameObject clearEffectPrefab;
-    public RectTransform effectRoot;
-
     public RomajiDisplay romajiDisplay;
     public voiceCS2 voice;
 
@@ -101,8 +98,6 @@ public class TypingTrainer2 : MonoBehaviour
                         playing = false;
                         voice.ClearText();
                         voice.Space1.enabled = true;
-
-                        Instantiate(clearEffectPrefab, effectRoot, false);
                     }
                 }
             }
