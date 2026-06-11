@@ -5,9 +5,6 @@ using System.Runtime.InteropServices;
 
 public class TypingTrainer3 : MonoBehaviour
 {
-    public GameObject clearEffectPrefab;
-    public RectTransform effectRoot;
-
     int[] lastColors = new int[132];
 
     HashSet<char> wrongKeys = new HashSet<char>();
@@ -71,10 +68,14 @@ public class TypingTrainer3 : MonoBehaviour
     {
         Init();
         Array.Fill(lastColors, -1);
+
+        
     }
 
     void Update()
     {
+        
+
         // ⭐ 毎フレームリセット（重要）
         ResetColors();
 
@@ -134,7 +135,6 @@ public class TypingTrainer3 : MonoBehaviour
                         ResetColors();
                         SendEffect();
 
-                        Instantiate(clearEffectPrefab, effectRoot, false);
                     }
 
                     return;
