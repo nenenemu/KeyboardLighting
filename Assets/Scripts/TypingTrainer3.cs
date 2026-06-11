@@ -71,10 +71,14 @@ public class TypingTrainer3 : MonoBehaviour
     {
         Init();
         Array.Fill(lastColors, -1);
+
+        
     }
 
     void Update()
     {
+        
+
         // ⭐ 毎フレームリセット（重要）
         ResetColors();
 
