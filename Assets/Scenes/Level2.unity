@@ -1527,7 +1527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::voiceCS2
   trainer2: {fileID: 0}
-  trainer3: {fileID: 0}
+  trainer3: {fileID: 1537724891}
   outputText: {fileID: 1497934433}
   isRecording: 0
   logo: {fileID: 1333619467}

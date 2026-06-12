@@ -134,7 +134,6 @@ public class TypingTrainer3 : MonoBehaviour
                         wrongKeys.Clear();
                         ResetColors();
                         SendEffect();
-
                     }
 
                     return;
@@ -234,6 +233,18 @@ public class TypingTrainer3 : MonoBehaviour
     {
         Dictionary<string, string> map = new Dictionary<string, string>()
         {
+            {"きゃ","kya"},{"きゅ","kyu"},{"きょ","kyo"},
+            {"しゃ","sha"},{"しゅ","shu"},{"しょ","sho"},
+            {"ちゃ","cha"},{"ちゅ","chu"},{"ちょ","cho"},
+            {"にゃ","nya"},{"にゅ","nyu"},{"にょ","nyo"},
+            {"ひゃ","hya"},{"ひゅ","hyu"},{"ひょ","hyo"},
+            {"みゃ","mya"},{"みゅ","myu"},{"みょ","myo"},
+            {"りゃ","rya"},{"りゅ","ryu"},{"りょ","ryo"},
+            {"ぎゃ","gya"},{"ぎゅ","gyu"},{"ぎょ","gyo"},
+            {"じゃ","ja"},{"じゅ","ju"},{"じょ","jo"},
+            {"びゃ","bya"},{"びゅ","byu"},{"びょ","byo"},
+            {"ぴゃ","pya"},{"ぴゅ","pyu"},{"ぴょ","pyo"},
+
             {"あ","a"},{"い","i"},{"う","u"},{"え","e"},{"お","o"},
             {"か","ka"},{"き","ki"},{"く","ku"},{"け","ke"},{"こ","ko"},
             {"さ","sa"},{"し","shi"},{"す","su"},{"せ","se"},{"そ","so"},
@@ -243,16 +254,83 @@ public class TypingTrainer3 : MonoBehaviour
             {"ま","ma"},{"み","mi"},{"む","mu"},{"め","me"},{"も","mo"},
             {"や","ya"},{"ゆ","yu"},{"よ","yo"},
             {"ら","ra"},{"り","ri"},{"る","ru"},{"れ","re"},{"ろ","ro"},
-            {"わ","wa"},{"を","wo"},{"ん","n"}
+            {"わ","wa"},{"を","wo"},{"ん","n"},
+
+            {"が","ga"},{"ぎ","gi"},{"ぐ","gu"},{"げ","ge"},{"ご","go"},
+            {"ざ","za"},{"じ","ji"},{"ず","zu"},{"ぜ","ze"},{"ぞ","zo"},
+            {"だ","da"},{"ぢ","ji"},{"づ","zu"},{"で","de"},{"ど","do"},
+            {"ば","ba"},{"び","bi"},{"ぶ","bu"},{"べ","be"},{"ぼ","bo"},
+            {"ぱ","pa"},{"ぴ","pi"},{"ぷ","pu"},{"ぺ","pe"},{"ぽ","po"},
+
+            {"ふぁ","fa"},{"ふぃ","fi"},{"ふぇ","fe"},{"ふぉ","fo"},
+            {"てぃ","ti"},{"でぃ","di"},{"とぅ","tu"},{"どぅ","du"},
+            {"うぃ","wi"},{"うぇ","we"},{"うぉ","wo"},
+            {"しぇ","she"},{"じぇ","je"},{"ちぇ","che"},
+            {"つぁ","tsa"},{"つぃ","tsi"},{"つぇ","tse"},{"つぉ","tso"},
+            {"てゅ","tyu"},{"でゅ","dyu"},
+
+            {"ゔぁ","va"},{"ゔぃ","vi"},{"ゔ","vu"},{"ゔぇ","ve"},{"ゔぉ","vo"},
+
+            {"ぁ","xa"},{"ぃ","xi"},{"ぅ","xu"},{"ぇ","xe"},{"ぉ","xo"},
+            {"ゃ","xya"},{"ゅ","xyu"},{"ょ","xyo"}
         };
 
         string result = "";
-        foreach (char c in input)
+
+        for (int i = 0; i < input.Length; i++)
         {
-            string s = c.ToString();
-            if (map.ContainsKey(s))
-                result += map[s];
+            string current = input[i].ToString();
+
+            // 促音（っ）
+            if (current == "っ" && i + 1 < input.Length)
+            {
+                string next = input.Substring(i + 1, 1);
+
+                if (i + 2 <= input.Length)
+                {
+                    string two = input.Substring(i + 1, Mathf.Min(2, input.Length - (i + 1)));
+                    if (map.ContainsKey(two))
+                    {
+                        result += map[two][0];
+                        continue;
+                    }
+                }
+
+                if (map.ContainsKey(next))
+                    result += map[next][0];
+
+                continue;
+            }
+
+            // 長音（ー）
+            if (current == "ー")
+            {
+                if (result.Length > 0)
+                {
+                    char last = result[result.Length - 1];
+                    if ("aeiou".Contains(last))
+                        result += last;
+                }
+                continue;
+            }
+
+            // 2文字（拗音）
+            if (i < input.Length - 1)
+            {
+                string two = input.Substring(i, 2);
+                if (map.ContainsKey(two))
+                {
+                    result += map[two];
+                    i++;
+                    continue;
+                }
+            }
+
+            // 1文字
+            if (map.ContainsKey(current))
+                result += map[current];
         }
+
         return result;
     }
 
