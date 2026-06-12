@@ -3,9 +3,13 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using UnityEngine.Video;
 
 public class TypingTrainer2 : MonoBehaviour
 {
+    public GameObject videoPrefab;
+    public Transform videoSpawnPoint;
+
     public RomajiDisplay romajiDisplay;
     public voiceCS2 voice;
 
@@ -15,24 +19,15 @@ public class TypingTrainer2 : MonoBehaviour
 
     Dictionary<char, Vector2Int> keyMap = new Dictionary<char, Vector2Int>()
     {
-        {'q', new Vector2Int(2,2)}, {'w', new Vector2Int(2,3)},
-        {'e', new Vector2Int(2,4)}, {'r', new Vector2Int(2,5)},
-        {'t', new Vector2Int(2,6)}, {'y', new Vector2Int(2,7)},
-        {'u', new Vector2Int(2,8)}, {'i', new Vector2Int(2,9)},
-        {'o', new Vector2Int(2,10)}, {'p', new Vector2Int(2,11)},
-
-        {'a', new Vector2Int(3,2)}, {'s', new Vector2Int(3,3)},
-        {'d', new Vector2Int(3,4)}, {'f', new Vector2Int(3,5)},
-        {'g', new Vector2Int(3,6)}, {'h', new Vector2Int(3,7)},
-        {'j', new Vector2Int(3,8)}, {'k', new Vector2Int(3,9)},
-        {'l', new Vector2Int(3,10)},
-
-        {'z', new Vector2Int(4,3)}, {'x', new Vector2Int(4,4)},
-        {'c', new Vector2Int(4,5)}, {'v', new Vector2Int(4,6)},
-        {'b', new Vector2Int(4,7)}, {'n', new Vector2Int(4,8)},
-        {'m', new Vector2Int(4,9)},
-
-        {' ', new Vector2Int(5,6)}
+        {'q', new Vector2Int(2,2)}, {'w', new Vector2Int(2,3)}, {'e', new Vector2Int(2,4)},
+        {'r', new Vector2Int(2,5)}, {'t', new Vector2Int(2,6)}, {'y', new Vector2Int(2,7)},
+        {'u', new Vector2Int(2,8)}, {'i', new Vector2Int(2,9)}, {'o', new Vector2Int(2,10)},
+        {'p', new Vector2Int(2,11)}, {'a', new Vector2Int(3,2)}, {'s', new Vector2Int(3,3)},
+        {'d', new Vector2Int(3,4)}, {'f', new Vector2Int(3,5)}, {'g', new Vector2Int(3,6)},
+        {'h', new Vector2Int(3,7)}, {'j', new Vector2Int(3,8)}, {'k', new Vector2Int(3,9)},
+        {'l', new Vector2Int(3,10)}, {'z', new Vector2Int(4,3)}, {'x', new Vector2Int(4,4)},
+        {'c', new Vector2Int(4,5)}, {'v', new Vector2Int(4,6)}, {'b', new Vector2Int(4,7)},
+        {'n', new Vector2Int(4,8)}, {'m', new Vector2Int(4,9)}, {' ', new Vector2Int(5,6)}
     };
 
     [DllImport("RzChromaSDK")] public static extern int Init();
@@ -70,7 +65,6 @@ public class TypingTrainer2 : MonoBehaviour
                 playing = true;
                 voice.Space1.enabled = false;
             }
-                
         }
 
         if (playing)
@@ -98,6 +92,8 @@ public class TypingTrainer2 : MonoBehaviour
                         playing = false;
                         voice.ClearText();
                         voice.Space1.enabled = true;
+
+                        SpawnVideo();
                     }
                 }
             }
@@ -129,7 +125,6 @@ public class TypingTrainer2 : MonoBehaviour
             {"じゃ","ja"},{"じゅ","ju"},{"じょ","jo"},
             {"びゃ","bya"},{"びゅ","byu"},{"びょ","byo"},
             {"ぴゃ","pya"},{"ぴゅ","pyu"},{"ぴょ","pyo"},
-
             {"あ","a"},{"い","i"},{"う","u"},{"え","e"},{"お","o"},
             {"か","ka"},{"き","ki"},{"く","ku"},{"け","ke"},{"こ","ko"},
             {"さ","sa"},{"し","shi"},{"す","su"},{"せ","se"},{"そ","so"},
@@ -140,22 +135,18 @@ public class TypingTrainer2 : MonoBehaviour
             {"や","ya"},{"ゆ","yu"},{"よ","yo"},
             {"ら","ra"},{"り","ri"},{"る","ru"},{"れ","re"},{"ろ","ro"},
             {"わ","wa"},{"を","wo"},{"ん","n"},
-
             {"が","ga"},{"ぎ","gi"},{"ぐ","gu"},{"げ","ge"},{"ご","go"},
             {"ざ","za"},{"じ","ji"},{"ず","zu"},{"ぜ","ze"},{"ぞ","zo"},
             {"だ","da"},{"ぢ","ji"},{"づ","zu"},{"で","de"},{"ど","do"},
             {"ば","ba"},{"び","bi"},{"ぶ","bu"},{"べ","be"},{"ぼ","bo"},
             {"ぱ","pa"},{"ぴ","pi"},{"ぷ","pu"},{"ぺ","pe"},{"ぽ","po"},
-
             {"ふぁ","fa"},{"ふぃ","fi"},{"ふぇ","fe"},{"ふぉ","fo"},
             {"てぃ","ti"},{"でぃ","di"},{"とぅ","tu"},{"どぅ","du"},
             {"うぃ","wi"},{"うぇ","we"},{"うぉ","wo"},
             {"しぇ","she"},{"じぇ","je"},{"ちぇ","che"},
             {"つぁ","tsa"},{"つぃ","tsi"},{"つぇ","tse"},{"つぉ","tso"},
             {"てゅ","tyu"},{"でゅ","dyu"},
-
             {"ゔぁ","va"},{"ゔぃ","vi"},{"ゔ","vu"},{"ゔぇ","ve"},{"ゔぉ","vo"},
-
             {"ぁ","xa"},{"ぃ","xi"},{"ぅ","xu"},{"ぇ","xe"},{"ぉ","xo"},
             {"ゃ","xya"},{"ゅ","xyu"},{"ょ","xyo"}
         };
@@ -225,11 +216,8 @@ public class TypingTrainer2 : MonoBehaviour
         effect.Color = new int[132];
 
         IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(effect));
-
         Marshal.StructureToPtr(effect, ptr, false);
-
         CreateKeyboardEffect(CHROMA_CUSTOM, ptr, IntPtr.Zero);
-
         Marshal.FreeHGlobal(ptr);
     }
 
@@ -241,5 +229,26 @@ public class TypingTrainer2 : MonoBehaviour
     void OnApplicationQuit()
     {
         UnInit();
+    }
+
+    void SpawnVideo()
+    {
+        GameObject obj = Instantiate(videoPrefab, videoSpawnPoint);
+
+        VideoPlayer vp = obj.GetComponent<VideoPlayer>();
+
+        if (vp != null)
+        {
+            vp.isLooping = false;
+
+            vp.loopPointReached += OnVideoFinished;
+
+            vp.Play();
+        }
+    }
+
+    void OnVideoFinished(VideoPlayer vp)
+    {
+        Destroy(vp.gameObject);
     }
 }

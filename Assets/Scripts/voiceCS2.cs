@@ -1,9 +1,10 @@
-﻿using UnityEngine;
-using TMPro;
-using System.Text;
+﻿using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
-using System.Collections;
+using System.Text;
+using TMPro;
+using UnityEngine;
 
 public class voiceCS2 : MonoBehaviour
 {
@@ -30,6 +31,10 @@ public class voiceCS2 : MonoBehaviour
 
     void Start()
     {
+        UnityEngine.Debug.Log(gameObject.name + " Start");
+
+        //UnityEngine.Debug.Log("voiceCS2 Start");
+
         totalText.Clear();
         outputText.text = "";
 
@@ -216,13 +221,13 @@ public class voiceCS2 : MonoBehaviour
         }
     }
 
-    void OnApplicationQuit()
+    /*void OnApplicationQuit()
     {
         if (pythonProcess != null && !pythonProcess.HasExited)
         {
             pythonProcess.Kill();
         }
-    }
+    }*/
 
     public IEnumerator ProcessVoice()
     {
@@ -251,5 +256,52 @@ public class voiceCS2 : MonoBehaviour
         outputText.text = totalText.ToString();
 
         isRecording = false;
+    }
+
+    //ここから下追加した奴
+    void OnDestroy()
+    {
+        UnityEngine.Debug.Log(gameObject.name + " Destroy");
+        ClosePython();
+    }
+
+    void OnDisable()
+    {
+        ClosePython();
+    }
+
+    void OnApplicationQuit()
+    {
+        ClosePython();
+    }
+
+    void ClosePython()
+    {
+        try
+        {
+            if (pythonProcess != null)
+            {
+                try
+                {
+                    if (!pythonProcess.HasExited)
+                    {
+                        pythonProcess.Kill();
+                    }
+                }
+                catch
+                {
+                    // 既に終了済み
+                }
+
+                pythonProcess.Dispose();
+                pythonProcess = null;
+            }
+
+            UnityEngine.Debug.Log("Python終了");
+        }
+        catch (Exception e)
+        {
+            UnityEngine.Debug.LogError(e);
+        }
     }
 }
