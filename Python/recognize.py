@@ -22,14 +22,14 @@ while True:
         wav = input().strip()
 
         if wav == "":
-            print("")
+            print("[EMPTY]")
             sys.stdout.flush()
             continue
 
         speech, sr = librosa.load(wav, sr=16000)
 
         if len(speech) == 0:
-            print("")
+            print("[EMPTY]")
             sys.stdout.flush()
             continue
 
@@ -42,19 +42,27 @@ while True:
         with torch.no_grad():
             predicted_ids = model.generate(inputs)
 
-        text = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
+        text = processor.batch_decode(
+            predicted_ids,
+            skip_special_tokens=True
+        )[0]
 
-        # ここから：ひらがなだけ抽出
         hira = ""
+
         for item in kakasi.convert(text):
             h = item["hira"]
+
             for c in h:
                 if "ぁ" <= c <= "ん":
                     hira += c
 
-        print(hira)
+        if hira == "":
+            print("[EMPTY]")
+        else:
+            print(hira)
+
         sys.stdout.flush()
 
     except Exception as e:
-        print("")
+        print("[ERROR]")
         sys.stdout.flush()

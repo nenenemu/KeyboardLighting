@@ -160,9 +160,22 @@ public class voiceCS2 : MonoBehaviour
 
         string result = pythonOutput.ReadLine();
 
-        while (string.IsNullOrEmpty(result))
+        if (result == null)
         {
-            result = pythonOutput.ReadLine();
+            UnityEngine.Debug.LogError("Python応答なし");
+            return "";
+        }
+
+        if (result == "[ERROR]")
+        {
+            UnityEngine.Debug.LogError("Python認識エラー");
+            return "";
+        }
+
+        if (result == "[EMPTY]")
+        {
+            UnityEngine.Debug.Log("音声認識結果なし");
+            return "";
         }
 
         UnityEngine.Debug.Log("Python OUTPUT: " + result);
