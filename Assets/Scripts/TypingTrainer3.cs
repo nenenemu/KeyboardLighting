@@ -2,9 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using UnityEngine.Video;
 
 public class TypingTrainer3 : MonoBehaviour
 {
+    public GameObject videoPrefab;
+    public Transform videoSpawnPoint;
+
     int[] lastColors = new int[132];
 
     HashSet<char> wrongKeys = new HashSet<char>();
@@ -134,6 +138,8 @@ public class TypingTrainer3 : MonoBehaviour
                         wrongKeys.Clear();
                         ResetColors();
                         SendEffect();
+
+                        SpawnVideo();
                     }
 
                     return;
@@ -346,5 +352,35 @@ public class TypingTrainer3 : MonoBehaviour
     void OnApplicationQuit()
     {
         UnInit();
+    }
+
+    void SpawnVideo()
+    {
+        GameObject obj = Instantiate(
+            videoPrefab,
+            videoSpawnPoint
+        );
+
+        RectTransform rt = obj.GetComponent<RectTransform>();
+
+        if (rt != null)
+        {
+            rt.anchoredPosition = Vector2.zero;
+            rt.localScale = Vector3.one;
+        }
+
+        VideoPlayer vp = obj.GetComponent<VideoPlayer>();
+
+        if (vp != null)
+        {
+            vp.isLooping = false;
+
+            vp.loopPointReached += (VideoPlayer source) =>
+            {
+                Destroy(obj);
+            };
+
+            vp.Play();
+        }
     }
 }
